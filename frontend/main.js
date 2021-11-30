@@ -1,30 +1,57 @@
-var socket = io.connect("wss://a6ytms7731.execute-api.eu-central-1.amazonaws.com/sandbox", { forceNew: true });
+if ("WebSocket" in window) {
+  let socket = new WebSocket("wss://a6ytms7731.execute-api.eu-central-1.amazonaws.com/sandbox");
 
-socket.on("messages", function (data) {
-  console.log(data);
-  render(data);
-});
+  socket.onopen = function(event) {
+//        alert("[open] Connected");
+      };
 
-function render(data) {
-  var html = data
-    .map(function (elem, index) {
-      return `<div>
-              <strong>${elem.author}</strong>:
-              <em>${elem.text}</em>
-            </div>`;
-    })
-    .join(" ");
+  socket.onerror = function(error) {
+        alert(`[error] ${error.message}`);
+      };
 
-  document.getElementById("messages").innerHTML = html;
+  socket.onmessage = function(event) {
+        alert(`[message] Data from server: ${event.data}`);
+        render(event.data);
+      };
+
+  socket.onclose = function(event) {
+        if (event.wasClean) {
+          alert(`[close] Conexión cerrada, code=${event.code} source=${event.reason}`);
+        } 
+        else {  
+          alert('[Error] Conexión perdida');
+        }
+      };
+
+
+  function render(data) {
+    var html = `<div>
+                <strong>${data}</strong>:
+                <em>render_info</em>
+                </div>`;
+      
+    document.getElementById("messages").innerHTML = html;
+  }
+
+  function Login(event) {
+    var message = {
+      user: document.getElementById("username").value,
+    };
+    console.log(message);
+//  socket.emit("action", message);
+    return false;
+  }
+
+  function SendMessage(event) {
+    var message = {
+      text: document.getElementById("texto").value,
+    };
+
+    //socket.emit("action", message);
+    return false;
+  }
+} 
+else {          
+  // The browser doesn't support WebSocket
+  alert("WebSocket no está soportado por tu Browser!");
 }
-
-function SendMessage(e) {
-  var message = {
-    author: document.getElementById("username").value,
-    text: document.getElementById("texto").value,
-  };
-
-  //socket.emit("action", message);
-  return false;
-}
-
