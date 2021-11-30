@@ -1,4 +1,4 @@
-var socket = io.connect("http://localhost:8080", { forceNew: true });
+var socket = io.connect("wss://a6ytms7731.execute-api.eu-central-1.amazonaws.com/sandbox", { forceNew: true });
 
 socket.on("messages", function (data) {
   console.log(data);
@@ -18,13 +18,13 @@ function render(data) {
   document.getElementById("messages").innerHTML = html;
 }
 
-function addMessage(e) {
+function SendMessage(e) {
   var message = {
     author: document.getElementById("username").value,
     text: document.getElementById("texto").value,
   };
 
-  socket.emit("new-message", message);
+  //socket.emit("action", message);
   return false;
 }
 
