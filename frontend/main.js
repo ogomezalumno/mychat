@@ -1,3 +1,4 @@
+// Comprobamos si el navegador soporta web sockets
 if ("WebSocket" in window) {
   let socket = new WebSocket("wss://a6ytms7731.execute-api.eu-central-1.amazonaws.com/sandbox");
 
@@ -23,7 +24,6 @@ if ("WebSocket" in window) {
         }
       };
 
-
   function render(data) {
     var html = `<div>
                 <strong>${data}</strong>:
@@ -35,10 +35,13 @@ if ("WebSocket" in window) {
 
   function Login(event) {
     var message = {
-      user: document.getElementById("username").value,
+      action: "user",
+      username: document.getElementById("username").value,
+      userid: 1
     };
     console.log(message);
-//  socket.emit("action", message);
+    socket.send(JSON.stringify(message));
+    document.getElementById("username").value = "";
     return false;
   }
 
