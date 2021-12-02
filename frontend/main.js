@@ -28,7 +28,6 @@ if ("WebSocket" in window) {
     var message = {
       action: "getusers",
     };
-    alert(JSON.stringify(message));
     socket.send(JSON.stringify(message));
     document.getElementById("userlist").value = "";
     return false;
