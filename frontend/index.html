@@ -7,18 +7,21 @@
   </head>
   <body>
     <h1>MyChat</h1>
-    <div id="messages"></div>
     <br />
     <form onsubmit="return Login(this)">
       <input type="text" id="username" placeholder="Nombre: " />
       <input type="submit" value="Conectar" />
     </form>
-    <div id="userlist"></div>
+    <div id="messages"></div>
+    <p></p>
+    <p></p>
+    <form action="">
+       <label for="userlist">Usuario:</label>
+       <select id="userlist" name="userlist">
+       </select>
+       <input type="text" id="texto" placeholder="Mensaje: " />
+       <input type="submit">
+    </form>
   </body>
 </html>
-
-window.onbeforeunload = function() {
-  websocket.onclose = function () {}; // disable onclose handler first
-  websocket.close();
-};
 

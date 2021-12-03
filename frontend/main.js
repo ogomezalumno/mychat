@@ -29,7 +29,7 @@ if ("WebSocket" in window) {
       action: "getusers",
     };
     socket.send(JSON.stringify(message));
-    document.getElementById("userlist").value = "";
+    
     return false;
   }
 
@@ -58,12 +58,35 @@ if ("WebSocket" in window) {
            // Informamos y recolectamos nuestro ID de sesión websockets
            render("Conectado con ID: "+event.data);
            userid = event.data;
-           GetUsers(event);
            login = false;
+           GetUsers(event);
         }
         else {
-           //alert(`[message] Data from server: ${event.data}`);
-           render(event.data);
+           //var datos = JSON.parse(event.data);
+           // Tenemos que ver si nos devuelven un mensaje o la lista de usuarios
+           if (event.data.length > 1){
+
+              alert(event.data[i].username);
+              // Quitamos los usuarios de la lista
+              userListElement = document.getElementById('userlist');
+
+              while (userListElement.hasChildNodes()) {
+                userListElement.removeChild(userListElement.lastChild);
+              }
+
+              // Rellenamos la lista con los usuarios actuales
+              for (var i = 0; i < event.data.length; i++) {
+
+                  var span = document.createElement('span');
+                      span.className = 'user';
+                      span.style.display = 'block';
+                      span.innerHTML = event.data[i].username;
+                  userListElement.appendChild(span);
+              }
+           }
+           else {
+              render(event.data);
+           }
         }
       };
 
@@ -76,6 +99,8 @@ if ("WebSocket" in window) {
         else {  
           alert('[Error] Conexión perdida');
         }
+        // Recargamos página para volver a empezar
+
       };
 } 
 else {          
