@@ -64,23 +64,22 @@ if ("WebSocket" in window) {
         else {
            //var datos = JSON.parse(event.data);
            // Tenemos que ver si nos devuelven un mensaje o la lista de usuarios
-           if (event.data.length > 1){
+           const lista_usuarios = JSON.parse(event.data);
+           if (lista_usuarios.length > 1) {
 
-              alert(event.data[i].username);
-              // Quitamos los usuarios de la lista
+              // Quitamos los usuarios de la lista en el HTML
               userListElement = document.getElementById('userlist');
-
               while (userListElement.hasChildNodes()) {
                 userListElement.removeChild(userListElement.lastChild);
               }
 
               // Rellenamos la lista con los usuarios actuales
-              for (var i = 0; i < event.data.length; i++) {
+              for (var i = 0; i < lista_usuarios.length; i++) {
 
                   var span = document.createElement('span');
                       span.className = 'user';
                       span.style.display = 'block';
-                      span.innerHTML = event.data[i].username;
+                      span.innerHTML = lista_usuarios[i].username;
                   userListElement.appendChild(span);
               }
            }
@@ -99,11 +98,15 @@ if ("WebSocket" in window) {
         else {  
           alert('[Error] Conexión perdida');
         }
-        // Recargamos página para volver a empezar
-
       };
 } 
 else {          
   // The browser doesn't support WebSocket
   alert("WebSocket no está soportado por tu Browser!");
+}
+
+function preguntarAntesDeSalir()
+{
+  socket.close();
+  return 
 }

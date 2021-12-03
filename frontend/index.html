@@ -9,19 +9,23 @@
     <h1>MyChat</h1>
     <br />
     <form onsubmit="return Login(this)">
+      <label for="username">Nombre:</label>
       <input type="text" id="username" placeholder="Nombre: " />
       <input type="submit" value="Conectar" />
     </form>
-    <div id="messages"></div>
-    <p></p>
     <p></p>
     <form action="">
-       <label for="userlist">Usuario:</label>
+       <label for="userlist">Destinatario:</label>
        <select id="userlist" name="userlist">
        </select>
        <input type="text" id="texto" placeholder="Mensaje: " />
        <input type="submit">
     </form>
+    <p></p>
+    <div id="messages"></div>
+    <script language="JavaScript" type="text/javascript">        
+    window.onbeforeunload = preguntarAntesDeSalir; 
+    </script>
   </body>
 </html>
 
