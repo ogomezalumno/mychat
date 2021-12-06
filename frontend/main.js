@@ -76,11 +76,10 @@ if ("WebSocket" in window) {
               // Rellenamos la lista con los usuarios actuales
               for (var i = 0; i < lista_usuarios.length; i++) {
 
-                  var span = document.createElement('span');
-                      span.className = 'user';
-                      span.style.display = 'block';
-                      span.innerHTML = lista_usuarios[i].username;
-                  userListElement.appendChild(span);
+                  const option = document.createElement('option');
+                      option.value = lista_usuarios[i].username;
+                      option.text = lista_usuarios[i].username;
+                  userListElement.appendChild(option);
               }
            }
            else {
