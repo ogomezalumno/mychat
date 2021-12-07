@@ -33,14 +33,15 @@ if ("WebSocket" in window) {
     return false;
   }
 
-//  function SendMessage(event) {
-//    var message = {
-//      text: document.getElementById("texto").value,
-//    };
-
-    //socket.emit("action", message);
-//    return false;
-//  }
+  function SendMessage(event) {
+    var message = {
+      action: "sendmessage",
+      id: document.getElementById('userlist').value,
+      mensaje: document.getElementById('texto').value,
+    };
+    socket.send("action", message);
+    return false;
+  }
 
   socket.onopen = function(event) {
          userid = "";
@@ -53,12 +54,22 @@ if ("WebSocket" in window) {
       };
 
   socket.onmessage = function(event) {
-        // Si nos estabamos registrando en la bbdd de la palicación...
+        // Si nos estabamos registrando en la bbdd de la aplicación...
         if (login == true) {
            // Informamos y recolectamos nuestro ID de sesión websockets
            render("Conectado con ID: "+event.data);
            userid = event.data;
            login = false;
+           button1 = document.getElementById('button1');
+           button1.disabled = true;
+           username = document.getElementById('username');
+           username.disabled = true;
+           button2 = document.getElementById('button2');
+           button2.disabled = false;
+           texto = document.getElementById('texto');
+           texto.disabled = false;
+           userListElement = document.getElementById('userlist');
+           userListElement.disabled = false;
            GetUsers(event);
         }
         else {
@@ -75,9 +86,8 @@ if ("WebSocket" in window) {
 
               // Rellenamos la lista con los usuarios actuales
               for (var i = 0; i < lista_usuarios.length; i++) {
-
                   const option = document.createElement('option');
-                      option.value = lista_usuarios[i].username;
+                      option.value = lista_usuarios[i].id;
                       option.text = lista_usuarios[i].username;
                   userListElement.appendChild(option);
               }

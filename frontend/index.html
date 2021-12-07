@@ -8,7 +8,7 @@
     body {
         background-color: #232F3E;
         }
-    label, button {
+    select, label, button {
         color: #FF9900;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 20px;
@@ -36,15 +36,15 @@
     <form onsubmit="return Login(this)">
       <label for="username">Nombre:</label>
       <input type="text" id="username" placeholder="Nombre: " />
-      <input type="submit" value="Conectar" />
+      <input type="submit" id="button1" value="Conectar" />
     </form>
     <p></p>
-    <form action="">
+    <form onsubmit="return SendMessage(this)">
        <label for="userlist">Destinatario:</label>
-       <select id="userlist" name="userlist">
+       <select id="userlist" name="userlist" disabled>
        </select>
-       <input type="text" id="texto" placeholder="Mensaje: " />
-       <input type="submit">
+       <input type="text" id="texto" placeholder="Mensaje: " disabled/>
+       <input type="submit" id="button2" disabled>
     </form>
     <p></p>
     <div id="messages" class="message"></div>
