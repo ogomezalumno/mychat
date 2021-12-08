@@ -39,7 +39,7 @@ if ("WebSocket" in window) {
       id: document.getElementById('userlist').value,
       mensaje: document.getElementById('texto').value,
     };
-    socket.send("action", message);
+    socket.send(JSON.stringify(message));
     return false;
   }
 
@@ -73,7 +73,6 @@ if ("WebSocket" in window) {
            GetUsers(event);
         }
         else {
-           //var datos = JSON.parse(event.data);
            // Tenemos que ver si nos devuelven un mensaje o la lista de usuarios
            const lista_usuarios = JSON.parse(event.data);
            if (lista_usuarios.length > 1) {
@@ -93,6 +92,9 @@ if ("WebSocket" in window) {
               }
            }
            else {
+              console.log(event);
+              console.log('OK');
+              console.log(event.data);
               render(event.data);
            }
         }
