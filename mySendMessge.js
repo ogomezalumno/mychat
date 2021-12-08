@@ -12,8 +12,6 @@ exports.handler = (event, context, callback) => {
       
     }); 
   
-    console.log(event);
-    
     if (event.body) {
     
         //Preparamos los mensajes de vuelta a usar en la CallBack
@@ -24,34 +22,37 @@ exports.handler = (event, context, callback) => {
             
         let   response_error = {
                 statusCode: 400,
-                body: JSON.stringify({message:'ERROR: No se pudo enviar el mensaje'} )
+                body: JSON.stringify({message:'ERROR: No se pudo enviar el mensaje'})
             };
 
         var bodyJSON = JSON.parse(event.body);
-        console.log("OK Lets do it");
-        console.log(bodyJSON.mensaje);
 
-        //package the message data to send 
-        const mensaje = {
-            "mensaje" : event.body.mensaje, 
+        //Preparar el mensaje a enviar
+        const mensajeJSON = {
+            message : JSON.stringify(bodyJSON.mensaje)
         };
-        
+
         //package to string, ApiGatewayManagementApi ONLY send string as Data
-        const mensajeAsString = JSON.stringify(mensaje);
-       
+        const mensajeAsString = JSON.stringify(mensajeJSON);
+        //const idAsString = JSON.stringify(bodyJSON.id);
+        
         const params = {
-                    ConnectionId: event.body.Id,
+                    ConnectionId: bodyJSON.id,
                     Data: mensajeAsString
                 };
         
         //ApiGatewayManagementApi POST to ConnectionId
         apiGatewayManagementApi.postToConnection(params, function(err, data) {
             if (err) 
-               { 
-                callback(response_error);}
-             else  
-               { 
-                callback(undefined, response_success);}
+            { 
+               console.log(err);
+               callback(response_error);
+            }
+            else  
+            { 
+               console.log(data);
+               callback(undefined, response_success);
+            }
         });
     }
 };

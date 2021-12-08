@@ -6,7 +6,7 @@ if ("WebSocket" in window) {
 
   function render(data) {
     var html = `<div>
-                <strong>${data}</strong>
+                <strong>${data.message}</strong>
                 </div>`;
       
     document.getElementById("messages").innerHTML = html;
@@ -57,7 +57,7 @@ if ("WebSocket" in window) {
         // Si nos estabamos registrando en la bbdd de la aplicación...
         if (login == true) {
            // Informamos y recolectamos nuestro ID de sesión websockets
-           render("Conectado con ID: "+event.data);
+           render({message:"Conectado con ID: "+event.data});
            userid = event.data;
            login = false;
            button1 = document.getElementById('button1');
@@ -66,6 +66,8 @@ if ("WebSocket" in window) {
            username.disabled = true;
            button2 = document.getElementById('button2');
            button2.disabled = false;
+           button3 = document.getElementById('button3');
+           button3.disabled = false;
            texto = document.getElementById('texto');
            texto.disabled = false;
            userListElement = document.getElementById('userlist');
@@ -74,8 +76,8 @@ if ("WebSocket" in window) {
         }
         else {
            // Tenemos que ver si nos devuelven un mensaje o la lista de usuarios
-           const lista_usuarios = JSON.parse(event.data);
-           if (lista_usuarios.length > 1) {
+           const lista_mensajes = JSON.parse(event.data);
+           if (lista_mensajes.length > 1) {
 
               // Quitamos los usuarios de la lista en el HTML
               userListElement = document.getElementById('userlist');
@@ -84,18 +86,15 @@ if ("WebSocket" in window) {
               }
 
               // Rellenamos la lista con los usuarios actuales
-              for (var i = 0; i < lista_usuarios.length; i++) {
+              for (var i = 0; i < lista_mensajes.length; i++) {
                   const option = document.createElement('option');
-                      option.value = lista_usuarios[i].id;
-                      option.text = lista_usuarios[i].username;
+                      option.value = lista_mensajes[i].id;
+                      option.text = lista_mensajes[i].username;
                   userListElement.appendChild(option);
               }
            }
            else {
-              console.log(event);
-              console.log('OK');
-              console.log(event.data);
-              render(event.data);
+              render(lista_mensajes);
            }
         }
       };
@@ -116,8 +115,20 @@ else {
   alert("WebSocket no está soportado por tu Browser!");
 }
 
-function preguntarAntesDeSalir()
+function AntesDeSalir()
 {
-  socket.close();
-  return 
+ button1 = document.getElementById('button1');
+ button1.disabled = false;
+ username = document.getElementById('username');
+ username.disabled = false;
+ button2 = document.getElementById('button2');
+ button2.disabled = true;
+ button3 = document.getElementById('button3');
+ button3.disabled = true;
+ texto = document.getElementById('texto');
+ texto.disabled = true;
+ userListElement = document.getElementById('userlist');
+ userListElement.disabled = true;
+ socket.close();
+ return 
 }

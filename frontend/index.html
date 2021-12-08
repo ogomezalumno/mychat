@@ -48,8 +48,12 @@
     </form>
     <p></p>
     <div id="messages" class="message"></div>
+    <p></p>
+    <form onsubmit="return AntesDeSalir()">
+       <input type="submit" id="button3" value="Desconectar" disabled>
+    </form>
     <script language="JavaScript" type="text/javascript">        
-    window.onbeforeunload = preguntarAntesDeSalir; 
+    window.onbeforeunload = AntesDeSalir; 
     </script>
   </body>
 </html>
