@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const ddb = new AWS.DynamoDB.DocumentClient();
+const dinamodb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = async (event) => {
     var params = {
@@ -9,12 +9,20 @@ exports.handler = async (event) => {
         }
     };
     
-    ddb.delete(params, function(err, data) {
-        if (err) {
-            console.error("No se ha podido borrar la sesión de usuario. Error JSON:", JSON.stringify(err, null, 2));
+    console.log(params);
+    
+    dinamodb.delete(params, function(err, data) {
+        if (err) 
+        { 
+            console.log(err);
+            
+        }
+        else  
+        { 
+           console.log(data);
         }
     });
-    
+
     const response = {
         statusCode: 200,
         body: JSON.stringify('Desconectado'),
